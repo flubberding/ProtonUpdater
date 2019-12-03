@@ -43,7 +43,7 @@ else
     fi
 fi
 
-if [ $ge_ver != "-l" ]
+if  [ ! "$ge_ver" == "-l" ]
 then
   rsp="$(curl -sI "$url" | head -1)"
   echo "$rsp" | grep -q 302 || {
