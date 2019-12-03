@@ -22,7 +22,9 @@ then
       echo "Operation canceled"
       exit 0
     fi
-
+elif [ $ge_ver == "-l" ]
+then
+  curl -s https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases  | grep -H "tag_name" | cut -d \" -f4
 else
   if [[ -d $dstpath/Proton-$ge_ver ]]
   then
