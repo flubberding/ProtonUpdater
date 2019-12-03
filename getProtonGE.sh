@@ -43,15 +43,18 @@ else
     fi
 fi
 
-rsp="$(curl -sI "$url" | head -1)"
-echo "$rsp" | grep -q 302 || {
-  echo "$rsp"
-  exit 1
-}
+if [ $ge_ver != "-l" ]
+then
+  rsp="$(curl -sI "$url" | head -1)"
+  echo "$rsp" | grep -q 302 || {
+    echo "$rsp"
+    exit 1
+  }
 
-[ -d "$dstpath" ] || {
-    mkdir "$dstpath"
-    echo [Info] Created "$dstpath"
-}
+  [ -d "$dstpath" ] || {
+      mkdir "$dstpath"
+      echo [Info] Created "$dstpath"
+  }
 
-curl -sL "$url" | tar xfzv - -C "$dstpath"
+  curl -sL "$url" | tar xfzv - -C "$dstpath"
+fi
