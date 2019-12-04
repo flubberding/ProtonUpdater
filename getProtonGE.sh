@@ -57,7 +57,10 @@ then
   }
 
   curl -sL "$url" | tar xfzv - -C "$dstpath"
-  killall steam #restarting Steam
-  sleep 5s
-  steam &
+  if [ "`ps -A | grep steam`" != "" ]; then
+    echo "Restarting Steam"
+	  killall steam #restarting Steam
+    sleep 5s
+    steam &
+  fi
 fi
