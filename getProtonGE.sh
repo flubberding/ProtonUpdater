@@ -57,4 +57,7 @@ then
   }
 
   curl -sL "$url" | tar xfzv - -C "$dstpath"
+  killall steam #restarting Steam
+  sleep 5s
+  steam &
 fi
