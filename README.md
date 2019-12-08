@@ -1,4 +1,4 @@
-# CProton - Custom Proton Installationscript
+# CProton - Custom Proton Installscript
 Script to make it easier to update Proton GE to the latest version.
 
 Two simple scripts to help you to install the latest version of GloriousEggroll's custom Proton, which can be found [here](https://github.com/GloriousEggroll/proton-ge-custom)
