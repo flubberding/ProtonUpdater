@@ -9,10 +9,10 @@ autoInstall=false
 #### Set restartSteam=1 to autorestart steam after installing Proton
 #### Set restartSteam=2 to to get a y/n prompt asking if you want to restart Steam after each installation.
 
-#### Set autoInstall=true to skip the installation prompt and install the latest not-installed, or any forced Proton GE builds
+#### Set autoInstall=true to autostart the installation and when it finds a newer non-installed build, or any forced Proton GE builds (Skips the installation prompt)
 #### Set autoInstall=false to display a installation-confirmation prompt when installing a Proton GE build
 
-# ########################################## Custom Proton GloriousEggroll Installscript 0.2 ##########################################
+# ########################################## Custom Proton GloriousEggroll Installscript 0.2.1 ##########################################
 # Disclaimer: Subversions like the MCC versions of Proton 4.21-GE-1, will install as it's main version and not install separately.
 # For now, this may result in false "not installed"-detections or errors while force installing a specific subversion.
 
@@ -42,7 +42,7 @@ InstallProtonGE() {
 }
 
 RestartSteam() {
-  if [ "$(ps -A | grep steam)" != "" ]; then
+  if [ "$( pgrep steam )" != "" ]; then
     echo "Restarting Steam"
     pkill -TERM steam #restarting Steam
     sleep 5s
@@ -51,9 +51,9 @@ RestartSteam() {
 }
 
 RestartSteamCheck() {
-  if [ "$(ps -A | grep steam)" != "" ]; then
+  if [ "$( pgrep steam )" != "" ]; then
     if [ $restartSteam == 2 ]; then
-      read -p "Do you want to restart Steam? <y/N> " prompt
+      read -r -p "Do you want to restart Steam? <y/N> " prompt
       if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]; then
         RestartSteam
       else
@@ -68,11 +68,11 @@ RestartSteamCheck() {
 
 InstallationPrompt() {
   if [ "$autoInstall" = true ]; then
-    if [ ! -d $dstpath/Proton-$version ]; then
+    if [ ! -d "$dstpath"/Proton-"$version" ]; then
       InstallProtonGE
     fi
   else
-    read -p "Do you want to try to download and (re)install this release? <y/N> " prompt
+    read -r -p "Do you want to try to download and (re)install this release? <y/N> " prompt
     if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]; then
       InstallProtonGE
     else
@@ -83,18 +83,18 @@ InstallationPrompt() {
 }
 
 if [ -z "$parameter" ]; then
-  version="$(curl -s $latesturi | egrep -m1 "tag_name" | cut -d \" -f4)"
-  url=$(curl -s $latesturi | egrep -m1 "browser_download_url.*Proton" | cut -d \" -f4)
-  if [ -d $dstpath/Proton-$version ]; then
+  version="$(curl -s $latesturi | grep -E -m1 "tag_name" | cut -d \" -f4)"
+  url=$(curl -s $latesturi | grep -E -m1 "browser_download_url.*Proton" | cut -d \" -f4)
+  if [ -d "$dstpath"/Proton-"$version" ]; then
     echo "Proton $version is the latest version and is already installed."
   else
     echo "Proton $version is the latest version and is not installed yet."
   fi
-elif [ $parameter == "-l" ]; then
+elif [ "$parameter" == "-l" ]; then
   PrintReleases
 else
   url=$baseuri/"$parameter"/Proton-"$parameter".tar.gz
-  if [ -d $dstpath/Proton-$parameter ]; then
+  if [ -d "$dstpath"/Proton-"$parameter" ]; then
     echo "Proton $parameter is already installed."
   else
     echo "Proton $parameter is not installed yet."
