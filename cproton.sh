@@ -13,7 +13,7 @@ autoInstall=false
 #### Set autoInstall=true to skip the installation prompt and install the latest not-installed, or any forced Proton GE builds
 #### Set autoInstall=false to display a installation-confirmation prompt when installing a Proton GE build
 
-# ########################################## Custom Proton GloriousEggroll Installscript 0.2.1 ##########################################
+# ########################################## CProton - Custom Proton Installscript 0.2.1 ##########################################
 # Disclaimer: Subversions like the MCC versions of Proton 4.21-GE-1, will install as it's main version and not install separately.
 # For now, this may result in false "not installed"-detections or errors while force installing a specific subversion.
 
