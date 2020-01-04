@@ -2,6 +2,7 @@
 baseuri="https://github.com/GloriousEggroll/proton-ge-custom/releases/download"
 latesturi="https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases/latest"
 parameter="${1}"
+installComplete=false;
 dstpath="$HOME/.steam/root/compatibilitytools.d" #### Destinationforlder of the Proton installations
 restartSteam=2
 autoInstall=false
@@ -9,7 +10,7 @@ autoInstall=false
 #### Set restartSteam=1 to autorestart steam after installing Proton
 #### Set restartSteam=2 to to get a y/n prompt asking if you want to restart Steam after each installation.
 
-#### Set autoInstall=true to autostart the installation and when it finds a newer non-installed build, or any forced Proton GE builds (Skips the installation prompt)
+#### Set autoInstall=true to skip the installation prompt and install the latest not-installed, or any forced Proton GE builds
 #### Set autoInstall=false to display a installation-confirmation prompt when installing a Proton GE build
 
 # ########################################## Custom Proton GloriousEggroll Installscript 0.2.1 ##########################################
@@ -19,7 +20,7 @@ autoInstall=false
 PrintReleases() {
   echo "----------Description----------"
   echo ""
-  echo "Run './getProtonGE.sh [VersionName]'"
+  echo "Run './cproton.sh [VersionName]'"
   echo "to download specific versions."
   echo ""
   echo "------------Releases------------"
@@ -39,6 +40,7 @@ InstallProtonGE() {
     echo [Info] Created "$dstpath"
   }
   curl -sL "$url" | tar xfzv - -C "$dstpath"
+  installComplete=true
 }
 
 RestartSteam() {
@@ -51,7 +53,7 @@ RestartSteam() {
 }
 
 RestartSteamCheck() {
-  if [ "$( pgrep steam )" != "" ]; then
+  if [ "$( pgrep steam )" != "" ] && [ "$installComplete" = true ]; then
     if [ $restartSteam == 2 ]; then
       read -r -p "Do you want to restart Steam? <y/N> " prompt
       if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]; then
