@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 baseuri_ge="https://github.com/GloriousEggroll/proton-ge-custom/releases/download"
 latesturi_ge="https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases/latest"
-baseuri_tkg="https://github.com/Tk-Glitch/PKGBUILDS/releases/download"
-latesturi_tkg="https://api.github.com/repos/Tk-Glitch/PKGBUILDS/releases/latest"
+baseuri_tkg="https://github.com/Frogging-Family/wine-tkg-git/releases/download"
+latesturi_tkg="https://api.github.com/repos/Frogging-Family/wine-tkg-git/releases/latest"
 dstpath="$HOME/.steam/root/compatibilitytools.d"
 
 ### Install latest version of proton-ge ###
