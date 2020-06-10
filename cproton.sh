@@ -92,6 +92,7 @@ DeleteProtonPrompt() {
 DeleteProton() {
     rm -rf $remove_option
     echo "removed $remove_option"
+    installComplete=true
     Wanttodelete
 }
 
