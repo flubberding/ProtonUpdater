@@ -60,6 +60,7 @@ DeleteProtonCheck() {
         folder=$(echo "${installed_versions[i]}" | rev | cut -d/ -f2 | rev)
         echo "$inumber. $folder"
     done
+    echo ""
     echo -n "Please choose an option to remove [1-${#installed_versions[@]}]:"
     read -ra option_remove
     
