@@ -12,7 +12,7 @@ For now, this may result in false "not installed"-detections or errors while for
 There are two scripts:
 #### [cproton.sh](cproton.sh)
 
-This is the full script. when you run it without any arguments, it checks for the latest Proton GE version and checks if it's a;ready installed. After this you it promps you with the question if you want to (re)install it.
+This is the full script. when you run it without any arguments, it checks for the latest Proton GE version and checks if it's already installed. After this it prompts you with the question if you want to (re)install it.
 You can also run this script with a specific Proton GE version as argument to downlaod and install this specific version (i.e. ./getProtonGE 4.15-GE-1).
 Use **-l** as an argument to get a list of releases. You can use this list to download specific versions.
 
