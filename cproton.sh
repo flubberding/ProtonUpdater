@@ -86,7 +86,7 @@ InstallationPrompt() {
 
 if [ -z "$parameter" ]; then
   version="$(curl -s $latesturi | grep -E -m1 "tag_name" | cut -d \" -f4)"
-  url=$(curl -s $latesturi | grep -E -m1 "browser_download_url.*Proton" | cut -d \" -f4)
+  url=$(curl -s $latesturi | grep -E -m2 "browser_download_url.*Proton" | tail -n1 | cut -d \" -f4)
   if [ -d "$dstpath"/Proton-"$version" ]; then
     echo "Proton $version is the latest version and is already installed."
   else
