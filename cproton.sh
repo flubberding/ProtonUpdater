@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+ #!/usr/bin/env bash
 baseuri="https://github.com/GloriousEggroll/proton-ge-custom/releases/download"
 latesturi="https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases/latest"
 parameter="${1}"
@@ -39,8 +39,20 @@ InstallProtonGE() {
     mkdir "$dstpath"
     echo [Info] Created "$dstpath"
   }
-  curl -sL "$url" | tar xfzv - -C "$dstpath"
-  installComplete=true
+  curl -sL "$url" > $dstpath/Proton-"$version".tar.gz # Download archive first
+  if [ ! -z "$sha256url" ]; then # If there is no sha256 the sha256url is empty 
+	if [ $(sha512sum $dstpath/Proton-"$version".tar.gz | cut -b -128) == $((curl -sL $sha512url)| cut -b -128) ]; then # Only the first 128 bytes are significant
+	  tar xfzv $dstpath/Proton-"$version".tar.gz -C "$dstpath"
+  	  installComplete=true
+	else
+	  echo "sha512sum did not match! Stopping installation."
+	  installComplete=false
+	fi
+  else
+    tar xfzv $dstpath/Proton-"$version".tar.gz -C "$dstpath"
+  	installComplete=true
+  fi
+  rm $dstpath/Proton-"$version".tar.gz
 }
 
 RestartSteam() {
@@ -86,7 +98,8 @@ InstallationPrompt() {
 
 if [ -z "$parameter" ]; then
   version="$(curl -s $latesturi | grep -E -m1 "tag_name" | cut -d \" -f4)"
-  url=$(curl -s $latesturi | grep -E -m1 "browser_download_url.*Proton" | cut -d \" -f4)
+  url=$(curl -s $latesturi | grep -E -m1 "browser_download_url.*.tar.gz" | cut -d \" -f4)
+  sha512url=$(curl -s $latesturi | grep -E -m1 "browser_download_url.*.sha512sum" | cut -d \" -f4)
   if [ -d "$dstpath"/Proton-"$version" ]; then
     echo "Proton $version is the latest version and is already installed."
   else
