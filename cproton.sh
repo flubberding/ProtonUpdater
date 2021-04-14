@@ -40,7 +40,7 @@ InstallProtonGE() {
     echo [Info] Created "$dstpath"
   }
   curl -sL "$url" > $dstpath/Proton-"$version".tar.gz # Download archive first
-  if [ ! -z "$sha256url" ]; then # If there is no sha256 the sha256url is empty 
+  if [ ! -z "$sha512url" ]; then # If there is no sha512 the sha512url is empty 
 	if [ $(sha512sum $dstpath/Proton-"$version".tar.gz | cut -b -128) == $((curl -sL $sha512url)| cut -b -128) ]; then # Only the first 128 bytes are significant
 	  tar xfzv $dstpath/Proton-"$version".tar.gz -C "$dstpath"
   	  installComplete=true
