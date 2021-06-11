@@ -1,3 +1,7 @@
+# New Script
+
+##### I've created a new and improved Proton Manager, take a look here: https://github.com/Termuellinator/Proton-Community-Updater
+
 # CProton - Custom Proton Installscript
 Script to make it easier to update Proton GE to the latest version.
 

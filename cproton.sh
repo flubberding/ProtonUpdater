@@ -55,6 +55,60 @@ InstallProtonGE() {
   rm $dstpath/Proton-"$version".tar.gz
 }
 
+Wanttodelete() {
+    read -r -p "Do you want to delete intalled versions? <y/N> " prompt
+        if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]; then
+            DeleteProtonCheck
+        else
+            RestartSteamCheck
+    fi
+}
+
+DeleteProtonCheck() {
+    echo "Installed runners:"
+    installed_versions=($(ls -d "$dstpath"/*/))
+    for((i=0;i<${#installed_versions[@]};i++)); do
+        inumber=$(("$i" + 1))
+        folder=$(echo "${installed_versions[i]}" | rev | cut -d/ -f2 | rev)
+        echo "$inumber. $folder"
+    done
+    echo ""
+    echo -n "Please choose an option to remove [1-${#installed_versions[@]}]:"
+    read -ra option_remove
+    
+    case "$option_remove" in
+        [1-9])
+        if (( $option_remove<= ${#installed_versions[@]} )); then
+            remove_option=${installed_versions[$option_remove -1]}
+            echo "removing $remove_option"
+            DeleteProtonPrompt
+        else
+            echo "That is not a valid option"
+        fi
+        ;;
+        *)
+            echo "Not a valid option" 
+        ;;
+    esac
+}
+
+DeleteProtonPrompt() {
+    read -r -p "Do you really want to permanently delete this version? <y/N> " prompt
+    if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]; then
+      DeleteProton
+    else
+      echo "Operation canceled"
+      Wanttodelete
+    fi
+}
+
+DeleteProton() {
+    rm -rf $remove_option
+    echo "removed $remove_option"
+    installComplete=true
+    Wanttodelete
+}
+
 RestartSteam() {
   if [ "$( pgrep steam )" != "" ]; then
     echo "Restarting Steam"
@@ -89,9 +143,10 @@ InstallationPrompt() {
     read -r -p "Do you want to try to download and (re)install this release? <y/N> " prompt
     if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]; then
       InstallProtonGE
+      Wanttodelete
     else
       echo "Operation canceled"
-      exit 0
+      Wanttodelete
     fi
   fi
 }
@@ -118,5 +173,4 @@ fi
 
 if [ ! "$parameter" == "-l" ]; then
   InstallationPrompt
-  RestartSteamCheck
 fi
