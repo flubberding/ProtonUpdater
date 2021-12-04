@@ -8,12 +8,16 @@ dstpath="$HOME/.steam/root/compatibilitytools.d"
   if [[ -d $dstpath/Proton-$latestversion ]]
   then
     echo "Proton $latestversion is the latest version and is already installed."
+    sleep 1
     echo "Exiting..."
+    sleep 1
     exit 0
   else
     echo "Proton $latestversion is the latest version and is not installed yet."
-    echo "Installing Proton $latestverion"
-    url=$(curl -s $latesturi | egrep -m1 "browser_download_url.*Proton" | cut -d \" -f4)
+    sleep 3
+    echo "Installing the latest version of Proton now!"
+    sleep 2
+    url=$(curl -s $latesturi | egrep -m1 "browser_download_url.*.tar.gz" | cut -d \" -f4)
   fi
 
 rsp="$(curl -sI "$url" | head -1)"
