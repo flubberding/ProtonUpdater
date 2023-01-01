@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-baseuri="https://github.com/GloriousEggroll/proton-ge-custom/releases/download"
 latesturi="https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases/latest"
 dstpath="$HOME/.steam/root/compatibilitytools.d"
 
